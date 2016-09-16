@@ -19,9 +19,8 @@ class KnightPathFinder
     [2,-1]
   ]
 
-  def valid_moves
+  def valid_moves(pos)
     moves = []
-    pos = @root.value
 
     MOVES.each do |move|
       new_move = []
@@ -38,14 +37,29 @@ class KnightPathFinder
   end
 
   def build_move_tree
-    valid_moves.each do |move|
-      node = PolyTreeNode.new(move)
-      node.parent = @root
+    queue = [@root]
+    until queue.empty?
+      next_item = queue.shift
+      valid_moves(next_item.value).each do |move|
+        node = PolyTreeNode.new(move)
+        node.parent = next_item
+        queue << node
+      end
+    end
+  end
+
+  def find_path(end_pos)
+    raise unless on_board?(end_pos)
+
+    node = @root.bfs(end_pos)
+    moves = []
+
+    until node.nil?
+      moves << node.value
+      node = node.parent
     end
 
-    @root.children.each do |child|
-      child.build_move_tree
-    end
+    moves.reverse
   end
 
   private
