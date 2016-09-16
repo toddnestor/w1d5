@@ -1,4 +1,5 @@
 require_relative 'tic_tac_toe'
+require 'byebug'
 
 class TicTacToeNode
   attr_accessor :board, :next_mover_mark, :prev_move_pos
@@ -10,9 +11,21 @@ class TicTacToeNode
   end
 
   def losing_node?(evaluator)
+    if @board.over?
+      return true if @board.winner == get_opposite_mark(evaluator)
+      false
+    else
+      case @next_mover_mark == evaluator
+      when true
+        children.all? {|child| child.losing_node?(evaluator)}
+      else
+        children.any? {|child| child.losing_node?(evaluator)}
+      end
+    end
   end
 
   def winning_node?(evaluator)
+    
   end
 
   # This method generates an array of all moves that can be made after
@@ -31,7 +44,11 @@ class TicTacToeNode
   end
 
   def opposite_mark
-    @next_mover_mark == :x ? :o : :x
+    get_opposite_mark(@next_mover_mark)
+  end
+
+  def get_opposite_mark(mark)
+    mark == :x ? :o : :x
   end
 
   def empty_positions(board)
