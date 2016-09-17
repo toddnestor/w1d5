@@ -5,7 +5,7 @@ class KPFNTree
     raise unless on_board?(pos)
     @tree = NTree.new(8)
     @tree.add(pos)
-    build_move_tree
+    # build_move_tree
   end
 
   def tree
@@ -53,8 +53,17 @@ class KPFNTree
   def find_path(end_pos)
     raise unless on_board?(end_pos)
 
-    node = @tree.bfs(end_pos)
-    @tree.path(node)
+    @tree.each_with_index do |item, idx|
+      return @tree.path(idx) if item == end_pos
+
+      if item
+        valid_moves(item).each do |move|
+          node = @tree.add(move, idx)
+        end
+      end
+    end
+
+    nil
   end
 
   private

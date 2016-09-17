@@ -17,6 +17,14 @@ class NTree
     nil
   end
 
+  def each_with_index(&prc)
+    @tree.each_with_index(&prc)
+  end
+
+  def reject(&prc)
+    @tree.reject(&prc)
+  end
+
   # do more math to determine the indexes for the children, and only return the items that have values
   # nil is a placeholder in the array so that every item's eight children spots are filled with something
   # meaning that if we didn't do that check we'd get back eight children for everything, some would just be nil
