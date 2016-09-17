@@ -5,8 +5,6 @@ class NTree
   end
 
   def parent(index)
-    return nil if index == 0
-    return 0 if index <= @n
     parent_index = index / @n
     parent_index -= 1  if index % @n == 0
 
