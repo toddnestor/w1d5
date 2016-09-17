@@ -86,13 +86,13 @@ class KnightPathFinder
 end
 
 if __FILE__ == $PROGRAM_NAME
-  knight = KnightPathFinder.new([0,0],50)
+  knight = KnightPathFinder.new([0,0],9)
 
   if ARGV[0]
     pos = ARGV[0].split(',').map(&:to_i)
   end
 
-  pos ||= [49,49]
+  pos ||= [7,2]
 
   p knight.find_path(pos)
 end

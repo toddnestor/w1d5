@@ -9,12 +9,8 @@ class NTree
 
   # do some math to determine the parent index, that allows us to keep everything in a one-dimensional array
   def parent(index)
-    parent_index = index / @n
-    parent_index -= 1  if index % @n == 0
-
-    return parent_index if parent_index >= 0
-
-    nil
+    return nil if index == 0
+    (index-1) / @n
   end
 
   def each_with_index(&prc)

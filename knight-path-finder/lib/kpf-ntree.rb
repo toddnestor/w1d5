@@ -4,7 +4,7 @@ class KPFNTree
   def initialize(pos, size=9)
     @size = size
     raise unless on_board?(pos)
-    @tree = NTree.new(size)
+    @tree = NTree.new(8)
     @tree.add(pos)
   end
 
@@ -74,13 +74,13 @@ class KPFNTree
 end
 
 if __FILE__ == $PROGRAM_NAME
-  knight = KPFNTree.new([0,0])
+  knight = KPFNTree.new([0,0], 50)
 
   if ARGV[0]
     pos = ARGV[0].split(',').map(&:to_i)
   end
 
-  pos ||= [8,8]
+  pos ||= [49,49]
 
   p knight.find_path(pos)
 end
