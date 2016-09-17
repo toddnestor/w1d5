@@ -65,5 +65,12 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   knight = KPFNTree.new([0,0])
-  p knight.find_path([7,2])
+
+  if ARGV[0]
+    pos = ARGV[0].split(',').map(&:to_i)
+  end
+
+  pos ||= [7,2]
+
+  p knight.find_path(pos)
 end
