@@ -105,6 +105,7 @@ class TicTacToe
 
     if self.board.won?
       winning_player = self.players[self.board.winner]
+      show
       puts "#{winning_player.name} won the game!"
     else
       puts "No one wins!"
@@ -113,7 +114,7 @@ class TicTacToe
 
   def show
     # not very pretty printing!
-    self.board.rows.each { |row| p row }
+    puts self.board.rows.map { |row| "#{row.join(' | ')}" }.join("\n--------\n")
   end
 
   private
