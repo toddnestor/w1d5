@@ -1,11 +1,11 @@
 require_relative 'n-tree'
 
 class KPFNTree
-  def initialize(pos)
+  def initialize(pos, size=9)
+    @size = size
     raise unless on_board?(pos)
-    @tree = NTree.new(8)
+    @tree = NTree.new(size)
     @tree.add(pos)
-    # build_move_tree
   end
 
   def tree
@@ -51,7 +51,7 @@ class KPFNTree
   end
 
   def find_path(end_pos)
-    raise unless on_board?(end_pos)
+    raise "Can't go to a position not on the board!" unless on_board?(end_pos)
 
     @tree.each_with_index do |item, idx|
       return @tree.path(idx) if item == end_pos
@@ -68,7 +68,8 @@ class KPFNTree
 
   private
   def on_board?(pos)
-    (0..8).cover?(pos[0]) && (0..8).cover?(pos[1])
+    end_num = @size - 1
+    (0..end_num).cover?(pos[0]) && (0..end_num).cover?(pos[1])
   end
 end
 
@@ -79,7 +80,7 @@ if __FILE__ == $PROGRAM_NAME
     pos = ARGV[0].split(',').map(&:to_i)
   end
 
-  pos ||= [7,2]
+  pos ||= [8,8]
 
   p knight.find_path(pos)
 end

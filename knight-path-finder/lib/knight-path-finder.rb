@@ -1,7 +1,8 @@
 require_relative '00_tree_node'
 
 class KnightPathFinder
-  def initialize(pos)
+  def initialize(pos,size=9)
+    @size = size
     raise unless on_board?(pos)
     @root = PolyTreeNode.new(pos)
     @visited_positions = [pos]
@@ -64,18 +65,19 @@ class KnightPathFinder
 
   private
   def on_board?(pos)
-    (0..8).cover?(pos[0]) && (0..8).cover?(pos[1])
+    end_num = @size - 1
+    (0..end_num).cover?(pos[0]) && (0..end_num).cover?(pos[1])
   end
 end
 
 if __FILE__ == $PROGRAM_NAME
-  knight = KnightPathFinder.new([0,0])
+  knight = KnightPathFinder.new([0,0],50)
 
   if ARGV[0]
     pos = ARGV[0].split(',').map(&:to_i)
   end
 
-  pos ||= [7,2]
+  pos ||= [49,49]
 
   p knight.find_path(pos)
 end
