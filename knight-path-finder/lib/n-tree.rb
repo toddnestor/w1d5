@@ -69,11 +69,6 @@ class NTree
 
   def bfs(target)
     @tree.index(target)
-    # @tree.each_with_index do |val, i|     # this looks more bfs-ey, but really we just need the index of the first match, so I did it that way
-    #   return i if val == target
-    # end
-    #
-    # nil
   end
 
   def values(arr)
