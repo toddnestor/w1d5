@@ -1,11 +1,15 @@
-require_relative '00_tree_node'
+require_relative 'n-tree'
 
-class KnightPathFinder
+class KPFNTree
   def initialize(pos)
     raise unless on_board?(pos)
-    @root = PolyTreeNode.new(pos)
-    @visited_positions = [pos]
+    @tree = NTree.new(8)
+    @tree.add(pos)
     build_move_tree
+  end
+
+  def tree
+    @tree
   end
 
   MOVES = [
@@ -27,9 +31,8 @@ class KnightPathFinder
       new_move << pos[0] + move[0]
       new_move << pos[1] + move[1]
 
-      if on_board?(new_move) && !@visited_positions.include?(new_move)
+      if on_board?(new_move) && !@tree.include?(new_move)
         moves << new_move
-        @visited_positions << new_move
       end
     end
 
@@ -37,13 +40,12 @@ class KnightPathFinder
   end
 
   def build_move_tree
-    queue = [@root]
+    queue = [0]
     until queue.empty?
       next_item = queue.shift
-      valid_moves(next_item.value).each do |move|
-        node = PolyTreeNode.new(move)
-        node.parent = next_item
-        queue << node
+      valid_moves(@tree[next_item]).each do |move|
+        node = @tree.add(move, next_item)
+        queue << node unless queue.include?(node)
       end
     end
   end
@@ -51,15 +53,8 @@ class KnightPathFinder
   def find_path(end_pos)
     raise unless on_board?(end_pos)
 
-    node = @root.bfs(end_pos)
-    moves = []
-
-    until node.nil?
-      moves << node.value
-      node = node.parent
-    end
-
-    moves.reverse
+    node = @tree.bfs(end_pos)
+    @tree.path(node)
   end
 
   private
@@ -69,6 +64,6 @@ class KnightPathFinder
 end
 
 if __FILE__ == $PROGRAM_NAME
-  knight = KnightPathFinder.new([0,0])
+  knight = KPFNTree.new([0,0])
   p knight.find_path([7,2])
 end
